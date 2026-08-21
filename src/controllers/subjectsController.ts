@@ -11,17 +11,15 @@ import {
   sql,
 } from "drizzle-orm";
 import { department, subject } from "../db/index.js";
+import { parsePositiveInt } from "../utils/index.js";
 
 // Get subjects with optional filtering
 const getAllSubejcts = async (req: Request, res: Response) => {
   try {
     const { search, depart, page = 1, limit = 10 } = req.query;
 
-    const currentPage = Math.max(1, parseInt(String(page), 10) || 1);
-    const limitPerPage = Math.min(
-      Math.max(1, parseInt(String(limit), 10) || 10),
-      100,
-    );
+    const currentPage = parsePositiveInt(page, 1);
+    const limitPerPage = Math.min(parsePositiveInt(limit, 10), 100);
 
     // Calculate offset for SQL pagination
     const offset = (currentPage - 1) * limitPerPage;
