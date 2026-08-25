@@ -10,7 +10,7 @@ import {
   or,
   sql,
 } from "drizzle-orm";
-import { department, subject } from "../db/index.js";
+import { department, NewSubject, subject } from "../db/index.js";
 import { parsePositiveInt } from "../utils/index.js";
 
 // Get subjects with optional filtering
@@ -79,6 +79,7 @@ const getAllSubejcts = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Can't GET subjects" });
   }
 };
+
 const getOneSubejctById = async (req: Request, res: Response) => {
   try {
     const { subjectId } = req.params;
@@ -107,7 +108,13 @@ const getOneSubejctById = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Can't GET subject" });
   }
 };
-const createOneSubject = async (req: Request, res: Response) => {};
+const createOneSubject = async (req: Request, res: Response) => {
+  try {
+    const newSubject: NewSubject = req.body;
+
+    db.insert(subject).values(newSubject);
+  } catch (error) {}
+};
 const deleteOneSubject = async (req: Request, res: Response) => {};
 const updateOneSubject = async (req: Request, res: Response) => {};
 
