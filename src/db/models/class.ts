@@ -42,7 +42,7 @@ export const classTable = pgTable(
     schedules: jsonb("schedules").$type<string[]>().notNull().default([]),
     subjectId: integer("subject_id")
       .notNull()
-      .references(() => subject.id, { onDelete: "cascade" }),
+      .references(() => subject.id, { onDelete: "restrict" }),
     teacherId: text("teacher_id")
       .notNull()
       .references(() => user.id, { onDelete: "restrict" }),
