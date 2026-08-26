@@ -50,19 +50,18 @@ const securityMiddleware = async (
 
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {
-        return res.status(429).json({ error: "Too many requests" });
+        return res.status(429).json({ message: "Too many requests" });
       }
       if (decision.reason.isBot()) {
-        return res.status(403).json({ error: "Bot traffic blocked" });
+        return res.status(403).json({ message: "Bot traffic blocked" });
       }
-      return res.status(403).json({ error: "Access denied" });
+      return res.status(403).json({ message: "Access denied" });
     }
 
     next();
   } catch (error) {
     console.log("Arject middlewar error: ", error);
     res.status(500).json({
-      error: "Internal Server Error",
       message: "Something went wrong with security middleware.",
     });
   }
