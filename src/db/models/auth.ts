@@ -65,6 +65,7 @@ export const account = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
+    issuer: text("issuer"),
     accessToken: text("access_token"),
     refreshToken: text("refresh_token"),
     idToken: text("id_token"),
@@ -74,7 +75,11 @@ export const account = pgTable(
     password: text("password"),
     ...timestamps,
   },
-  (t) => [index("account_user_id_idx").on(t.userId)],
+  (t) => [
+    index("account_user_id_idx").on(t.userId),
+    index("account_account_id_idx").on(t.accountId),
+    index("account_issuer_idx").on(t.issuer),
+  ],
 );
 
 // ---------------------------------------------------------------------------

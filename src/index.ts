@@ -3,10 +3,12 @@ import subjectRouter from "./routes/subjectRoute.js";
 import "dotenv/config";
 import cors from "cors";
 import securityMiddleware from "./middleware/security.js";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./lib/auth.js";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
-const BASE_URL = process.env.BASE_URL || "/api";
+const API_PREFIX = process.env.API_PREFIX || "/api";
 
 if (!process.env.FRONTEND_URL)
   throw new Error("Frontend URL is not provided in .env file");
@@ -19,11 +21,14 @@ app.use(
     credentials: true,
   }),
 );
+
+app.all(`${API_PREFIX}/auth/{*splat}`, toNodeHandler(auth));
+
 app.use(express.json());
 app.use(securityMiddleware);
 
 // Routes
-app.use(`${BASE_URL}/subjects`, subjectRouter);
+app.use(`${API_PREFIX}/subjects`, subjectRouter);
 
 app.get("/", (_req, res) => {
   res.json({ message: "Classroom API is up and running 🎓" });
