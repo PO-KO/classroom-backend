@@ -22,7 +22,7 @@ app.use(
   }),
 );
 
-app.all("/api/auth/{*splat}", toNodeHandler(auth));
+app.all(`${API_PREFIX}/auth/{*splat}`, toNodeHandler(auth));
 
 app.use(express.json());
 app.use(securityMiddleware);
