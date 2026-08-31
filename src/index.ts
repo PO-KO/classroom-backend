@@ -10,25 +10,14 @@ import securityMiddleware from "./middleware/security.js";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth.js";
 import classRouter from "./routes/classRoute.js";
+import corsOptions from "./config/corsOptions.js";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 const API_PREFIX = process.env.API_PREFIX || "/api";
 
-if (!process.env.FRONTEND_URL)
-  throw new Error("Frontend URL is not provided in .env file");
-
 // Middleware
-app.use(
-  cors({
-    origin: [
-      process.env.FRONTEND_URL,
-      "https://classroom-frontend-gotvx8v0v-po-kos-projects.vercel.app",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  }),
-);
+app.use(cors(corsOptions));
 
 app.all(`${API_PREFIX}/auth/{*splat}`, toNodeHandler(auth));
 
