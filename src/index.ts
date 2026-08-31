@@ -23,7 +23,7 @@ app.use(
   cors({
     origin: [
       process.env.FRONTEND_URL,
-      "https://classroom-frontend-gotvx8v0v-po-kos-projects.vercel.app/",
+      "https://classroom-frontend-gotvx8v0v-po-kos-projects.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
