@@ -5,7 +5,6 @@ import {
   pgEnum,
   pgTable,
   text,
-  uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
