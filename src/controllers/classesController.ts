@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { db } from "../config/db.js";
-import { classTable, subject, user } from "../db/index.js";
+import { classTable, department, subject, user } from "../db/index.js";
 import { parsePositiveInt } from "../utils/index.js";
 import { and, count, desc, eq, getTableColumns, ilike, or } from "drizzle-orm";
 
@@ -139,10 +139,12 @@ const getOneClassById = async (req: Request, res: Response) => {
         ...getTableColumns(classTable),
         teacher: { ...getTableColumns(user) },
         subject: { ...getTableColumns(subject) },
+        department: { ...getTableColumns(department) },
       })
       .from(classTable)
       .leftJoin(user, eq(classTable.teacherId, user.id))
       .leftJoin(subject, eq(classTable.subjectId, subject.id))
+      .leftJoin(department, eq(subject.departmentId, department.id))
       .where(eq(classTable.id, numericClassId));
 
     if (classResult.length === 0) {
